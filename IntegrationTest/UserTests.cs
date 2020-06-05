@@ -31,9 +31,11 @@ namespace IntegrationTest
         Password = "123456"
       };
       var serializedUser = JsonConvert.SerializeObject(user);
-      var response = await _client.PostAsync("/api/user", new StringContent(serializedUser, Encoding.UTF8, "application/json"));
+      var response = await _client.PostAsync("/api/user",
+      new StringContent(serializedUser, Encoding.UTF8, "application/json"));
       var jsonResult = response.Content.ReadAsStringAsync().Result;
-      var validationErrorMessage = JsonConvert.DeserializeObject<List<ValidationErrorResponse>>(jsonResult);
+      var validationErrorMessage = JsonConvert.
+      DeserializeObject<List<ValidationErrorResponse>>(jsonResult);
       Assert.True(validationErrorMessage[0]._Message == "Senha deve ter entre 8 e 20 caracteres");
     }
   }
