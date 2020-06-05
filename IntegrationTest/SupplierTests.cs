@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using System.Collections.Generic;
 
 namespace IntegrationTest
 {
@@ -38,26 +39,12 @@ namespace IntegrationTest
       };
       var serializedSupplier = JsonConvert.SerializeObject(supplier);
 
-      var response = await _client.PostAsync("/api/supplier", new StringContent(serializedSupplier, Encoding.UTF8, "application/json"));
-      //var response = await _client.GetAsync("api/supplier");
-
+      var response = await _client.PostAsync("/api/supplier",
+        new StringContent(serializedSupplier, Encoding.UTF8, "application/json"));
+      var jsonResult = await response.Content.ReadAsStringAsync();
+      var validationErrorMessage = JsonConvert.
+        DeserializeObject<List<ValidationErrorResponse>>(jsonResult);
+      Assert.True(validationErrorMessage[0]._Message == "Senha deve ter entre 8 e 20 caracteres");
     }
-
-    //[Fact]
-    //public async Task Test1()
-    //{
-    //    var adressModel = new Address("Rua amazonas", "bairro joaonese", "marilandia", "SC", 102);
-
-    //    var supplier = new SupplierBuilder()
-    //        .WithAdress(null)
-    //        .WithCorporateName("raua fjakdja�aaa")
-    //        .Withcpnj("88.202.679/0001-42")
-    //        .WithEmail(new Domain.ValueObjects.Email("carlos@gmail.com"))
-    //        .WithTelephone(new Domain.ValueObjects.Telephone("(47) 99620-7702"))
-    //        .WithTradingName("");
-
-    //    var response = await _client.PostAsync("/api/supplier", supplier);
-    //    Assert.Equal
-    //}
   }
 }
