@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Web
 {
@@ -37,12 +38,11 @@ namespace Web
 
       services.AddMvc(options =>
          options.Filters.Add(typeof(JsonExceptionFilter))
-     ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+     );
 
-      services.AddMvc(options => options.Filters.Add<NotificationFilter>())
-      .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+      services.AddMvc(options => options.Filters.Add<NotificationFilter>());
 
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+      services.AddMvc();
       ConfigureDatabaseServices(services);
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IUserService, UserService>();
@@ -64,7 +64,7 @@ namespace Web
       services.AddDbContext<MainContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ProdutosConnectionString")));
     }
 
-    public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public virtual void Configure(IApplicationBuilder app, IHostEnvironment env)
     {
       if (env.IsDevelopment())
       {
@@ -82,7 +82,6 @@ namespace Web
       }
 
       app.UseHttpsRedirection();
-      app.UseMvc();
       app.UseCors(option => option.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
     }
   }
