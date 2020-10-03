@@ -1,4 +1,4 @@
-﻿using Application.Models;
+﻿using Application.Models.UserCommands;
 using Application.Services.NotificationService;
 using Domain.Entity;
 using Infra.Repositories.User;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-  public class UserService
+    public class UserService
       : IUserService
   {
     private readonly IUserRepository _userRepository;
