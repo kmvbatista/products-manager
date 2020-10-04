@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
 
 namespace Application.Models.UserCommands
 {
-    class CreateUserCommand
+    public class CreateUserCommand : UserBaseModel, IRequest<UserResponseModel>
     {
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Application.Models;
+using Application.Models.UserCommands;
+using Application.Services;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Models;
-using Application.Services;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using Application.Models.UserCommand;
 
 namespace Web.Controllers
 {
@@ -31,17 +31,18 @@ namespace Web.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UserRequestModel request)
+        public async Task<IActionResult> Update([FromRoute] Guid id, UpdateUserCommand request)
         {
-            await _userService.Update(id, request);
-            return NoContent();
+            request.UserId = id;
+            var response = await _mediator.Send(request);
+            return Ok(response);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _userService.Delete(id);
+            await _mediator.Send(new DeleteUserCommand(id));
             return NoContent();
         }
 
