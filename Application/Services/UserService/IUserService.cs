@@ -1,8 +1,8 @@
-﻿using Application.Models;
+﻿using Application.Models.UserCommands;
 
 namespace Application.Services
 {
-  public interface IUserService : IServiceCrud<UserRequestModel, UserResponseModel>
+    public interface IUserService : IServiceCrud<UserRequestModel, UserResponseModel>
   {
   }
 }

@@ -1,5 +1,4 @@
-﻿using Application.Models;
-using Application.Models.UserCommands;
+﻿using Application.Models.UserCommands;
 using Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -50,13 +49,13 @@ namespace Web.Controllers
         [Route("{id}")]
         public async Task<UserResponseModel> GetById([FromRoute] Guid id)
         {
-            return await _userService.GetById(id);
+            return await _mediator.Send(new GetUserByIdCommand(id));
         }
 
         [HttpGet]
         public async Task<IList<UserResponseModel>> GetAll()
         {
-            return await _userService.GetAll();
+            return await _mediator.Send(new GetAllUsersCommand());
         }
     }
 }
